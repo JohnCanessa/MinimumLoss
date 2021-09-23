@@ -26,10 +26,15 @@ public class MinimumLoss {
 
         // **** sanity check(s) ****
         if (prices.size() < 2) return 0;
+        
+        if (prices.size() == 2)  {
+            if (prices.get(0) < prices.get(1)) return -1;
+            else return (int)(prices.get(0) - prices.get(1));
+        }
 
         // **** initialization ****
-        long minLoss = Long.MAX_VALUE;
-        long dayLoss = 0;
+        long minLoss    = Long.MAX_VALUE;
+        long yearLoss   = 0;
 
         // **** allocate and populate map for prices and indices - O(n) ****
         Map<Long, Integer> priceIndexMap = new HashMap<>();
@@ -53,14 +58,14 @@ public class MinimumLoss {
             if (priceIndexMap.get(prices.get(i)) > priceIndexMap.get(prices.get(i - 1)))
                 continue;
 
-            // **** compute day loss ****
-            dayLoss = prices.get(i) - prices.get(i - 1);
+            // **** compute year loss ****
+            yearLoss = prices.get(i) - prices.get(i - 1);
 
             // ???? ????
-            System.out.println("minimumLoss <<< dayLoss: " + dayLoss);
+            System.out.println("minimumLoss <<< yearLoss: " + yearLoss);
 
             // **** update the minimum loss ****
-            minLoss = (dayLoss < minLoss) ? dayLoss : minLoss;
+            if (minLoss > yearLoss) minLoss = yearLoss;
 
             // ???? ????
             System.out.println("minimumLoss <<< minLoss: " + minLoss);
@@ -94,7 +99,7 @@ public class MinimumLoss {
         // ???? ????
         System.out.println("main <<< prices: " + prices.toString());
 
-        // **** ****
+        // **** compure result and display it ****
         System.out.println("main <<< minimumLoss: " + minimumLoss(prices));
     }
 
